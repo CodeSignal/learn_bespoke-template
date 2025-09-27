@@ -6,46 +6,36 @@
     status.textContent = msg;
   }
 
-  // Your application data
-  let appData = {
-    // Replace with your actual data structure
-    // Example: { name: 'My App', items: [], settings: {} }
-  };
+  // Load help content and initialize modal
+  async function initializeHelpModal() {
+    try {
+      const response = await fetch('./help-content-template.html');
+      const helpContent = await response.text();
 
-  // Initialize auto-save system
-  const autoSave = AutoSave.init({
-    data: appData,
-    filename: 'solution.json',
-    localStorageKey: 'myapp:data',
-    saveInterval: 1000,
-    onStatusChange: setStatus,
-    onDataChange: (data) => {
-      // Optional: Custom logic when data changes
-      console.log('Data changed:', data);
-    },
-    onError: (message, error) => {
-      console.error('Auto-save error:', message, error);
+      // Initialize help modal with actual content
+      HelpModal.init({
+        triggerSelector: '#btn-help',
+        content: helpContent,
+        theme: 'auto'
+      });
+
+      setStatus('Ready');
+    } catch (error) {
+      console.error('Failed to load help content:', error);
+      // Fallback to placeholder content
+      HelpModal.init({
+        triggerSelector: '#btn-help',
+        content: '<p>Help content could not be loaded. Please check that help-content-template.html exists.</p>',
+        theme: 'auto'
+      });
+      setStatus('Ready (help content unavailable)');
     }
-  });
-
-  // Load existing data from localStorage
-  const savedData = autoSave.loadFromLocalStorage();
-  if (savedData) {
-    appData = savedData;
   }
 
-  // Initialize help modal
-  HelpModal.init({
-    triggerSelector: '#btn-help',
-    content: 'YOUR_HELP_CONTENT',
-    theme: 'auto'
-  });
-
-  // Example: Mark data as changed when you modify it
-  // autoSave.markDirty();
-
-  // Example: Manual save
-  // autoSave.saveNow();
-
-  setStatus('Ready');
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeHelpModal);
+  } else {
+    initializeHelpModal();
+  }
 })();

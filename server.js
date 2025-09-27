@@ -46,7 +46,7 @@ const server = http.createServer((req, res) => {
 
   // Default to index.html for root path
   if (pathname === '/') {
-    pathname = '/template.html';
+    pathname = '/index.html';
   }
 
   // Remove leading slash and construct file path
