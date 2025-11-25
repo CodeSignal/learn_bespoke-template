@@ -4,12 +4,12 @@ This directory contains reusable components for creating embedded applications t
 
 ## Components
 
-### 1. `client/bespoke.css`
-The core CSS framework providing:
-- Consistent design tokens (colors, spacing, typography)
-- Light and dark theme support
-- Reusable component styles (buttons, forms, modals, cards)
-- Responsive design utilities
+### 1. Design System (Git Submodule)
+The design system is provided via a git submodule at `design-system/` and includes:
+- **Foundations**: Colors, spacing, and typography tokens
+- **Components**: Buttons, boxes, inputs, dropdowns, icons, and tags
+- Light and dark theme support (automatic)
+- See `design-system/README.md` for full documentation
 
 ### 2. `client/index.html`
 A base HTML template that includes:
@@ -37,7 +37,12 @@ A template for creating consistent help content:
 ### Setting Up a New Application
 
 1. **Clone the repository**
-2. **Customize the HTML template** by replacing placeholders:
+2. **Ensure the design-system submodule is initialized**:
+   ```bash
+   git submodule update --init --recursive
+   ```
+
+3. **Customize the HTML template** by replacing placeholders:
    - `<!-- APP_TITLE -->` - Your application title
    - `<!-- APP_NAME -->` - Your application name (appears in header)
    - `<!-- APP_SPECIFIC_HEADER_CONTENT -->` - Any additional header elements
@@ -45,8 +50,8 @@ A template for creating consistent help content:
    - `<!-- APP_SPECIFIC_CSS -->` - Links to your app-specific CSS files
    - `<!-- APP_SPECIFIC_SCRIPTS -->` - Links to your app-specific JavaScript files
 
-3. **Implement your application logic**. You can use Cursor or other agents for it. There is a file called `AGENTS.md` that contains context LLM can use.
-4. **Customise your help content** using the help content template
+4. **Implement your application logic**. You can use Cursor or other agents for it. There is a file called `AGENTS.md` that contains context LLM can use.
+5. **Customise your help content** using the help content template
 
 ### Customizing Help Content
 
@@ -59,25 +64,23 @@ Use the `help-content-template.html` as a starting point:
 
 ### CSS Customization
 
-The `bespoke.css` file uses CSS custom properties for easy theming:
+The design system uses CSS custom properties for easy theming. You can override design system variables in your app-specific CSS:
 
 ```css
-.bespoke {
-  --bespoke-accent: #1062fb;        /* Primary accent color */
-  --bespoke-bg: #ffffff;            /* Background color */
-  --bespoke-fg: rgb(24, 33, 57);   /* Text color */
-  /* ... many more variables */
+:root {
+  /* Override design system colors */
+  --Colors-Base-Primary-700: #ff6b6b;  /* Custom primary color */
+  --Colors-Base-Neutral-00: #f8f9fa;   /* Custom background */
+
+  /* Override spacing */
+  --UI-Spacing-spacing-m: 20px;
+
+  /* Override typography */
+  --Fonts-Body-Default-md: 16px;
 }
 ```
 
-You can override these variables in your app-specific CSS:
-
-```css
-.my-app {
-  --bespoke-accent: #ff6b6b;  /* Custom accent color */
-  --bespoke-bg: #f8f9fa;     /* Custom background */
-}
-```
+See `design-system/README.md` and individual component READMEs for available variables.
 
 ### Help Modal API
 

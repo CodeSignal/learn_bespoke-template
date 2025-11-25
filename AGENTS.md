@@ -6,7 +6,7 @@ This document provides precise implementation instructions for creating embedded
 
 Every application MUST include these files in the following order:
 
-1. bespoke.css (core styling framework)
+1. Design System CSS files (from design-system submodule)
 2. help-modal.js (help system)
 3. app.js (application logic)
 4. server.js (server)
@@ -39,17 +39,23 @@ Every application MUST include these files in the following order:
 
 ## CSS IMPLEMENTATION
 
-1. ALWAYS use the `.bespoke` class on the body element
-2. USE ONLY the provided CSS custom properties for styling:
-   - Colors: `--bespoke-bg`, `--bespoke-fg`, `--bespoke-accent`, etc.
-   - Spacing: `--bespoke-space-xs` through `--bespoke-space-2xl`
-   - Typography: `--bespoke-font-size-*`, `--bespoke-font-weight-*`
-   - Borders: `--bespoke-radius-*`, `--bespoke-stroke`
-   - Shadows: `--bespoke-shadow-*`
+1. INCLUDE the design-system CSS files in your HTML (already included in index.html template):
+   - Foundations: colors, spacing, typography
+   - Components: button, boxes, input, dropdown, icons, tags
 
-3. FOR custom styling, create app-specific CSS files
-4. OVERRIDE variables in your app-specific CSS, not in bespoke.css
-5. FOLLOW the existing naming conventions for consistency
+2. USE design-system CSS custom properties for styling:
+   - Colors: `--Colors-*` variables (see design-system/colors/README.md)
+   - Spacing: `--UI-Spacing-*` variables (see design-system/spacing/README.md)
+   - Typography: `--Fonts-*` variables (see design-system/typography/README.md)
+
+3. USE design-system component classes:
+   - Buttons: `.button`, `.button-primary`, `.button-secondary`, `.button-tertiary`, `.button-danger`
+   - Boxes: `.box`, `.box.card` for card-style containers
+   - Inputs: `.input` class for text/number inputs
+
+4. FOR custom styling, create app-specific CSS files
+5. OVERRIDE design-system variables in your app-specific CSS if needed
+6. FOLLOW design-system naming conventions for consistency
 
 ## JAVASCRIPT IMPLEMENTATION
 
@@ -95,53 +101,45 @@ Use these EXACT status messages for consistency:
 
 ---
 
-# BESPOKE CSS SELECTOR GUIDELINES
+# DESIGN SYSTEM USAGE GUIDELINES
 
-This section explains how to use the Bespoke CSS framework for embedded applications.
+This section explains how to use the design-system for embedded applications.
 
 ## OVERVIEW
-The Bespoke CSS framework provides a scoped, reusable set of components that can be embedded in any website without conflicts. All styles are scoped under the `.bespoke` class to prevent interference with parent site styles.
+The design-system provides reusable components and design tokens that can be embedded in any website. The design-system uses CSS custom properties and component classes for consistent styling.
 
 ## BASIC USAGE
 
-### 1. Include the CSS
+### 1. Include the Design System CSS
+The HTML template already includes all necessary design-system CSS files:
+- Foundations: colors, spacing, typography
+- Components: button, boxes, input, dropdown, icons, tags
+
+### 2. Use the Component Classes
 ```html
-<link rel="stylesheet" href="./generalised/bespoke.css" />
-```
+<header>
+  <h1>My App</h1>
+  <div id="status">Ready</div>
+  <button class="button button-secondary">Help</button>
+</header>
 
-### 2. Wrap Your Application
-```html
-<div class="bespoke">
-  <!-- Your embedded application content goes here -->
-</div>
-```
+<main>
+  <aside>
+    <section class="box card">
+      <h2>Settings</h2>
+      <form>
+        <label>Name
+          <input type="text" class="input" placeholder="Enter name" />
+        </label>
+        <button type="submit" class="button button-primary">Save</button>
+      </form>
+    </section>
+  </aside>
 
-### 3. Use the Component Classes
-```html
-<div class="bespoke">
-  <header class="header">
-    <h1>My App</h1>
-    <div class="status">Ready</div>
-  </header>
-
-  <main class="main-layout">
-    <aside class="sidebar">
-      <section class="card">
-        <h2>Settings</h2>
-        <form>
-          <label>Name
-            <input type="text" placeholder="Enter name" />
-          </label>
-          <button type="submit">Save</button>
-        </form>
-      </section>
-    </aside>
-
-    <div class="content-area">
-      <!-- Main content -->
-    </div>
-  </main>
-</div>
+  <div>
+    <!-- Main content -->
+  </div>
+</main>
 ```
 
 ## COMPONENT REFERENCE
@@ -150,28 +148,18 @@ The Bespoke CSS framework provides a scoped, reusable set of components that can
 
 #### Header
 ```html
-<header class="header">
+<header>
   <h1>App Title</h1>
-  <div class="status">Status message</div>
-  <button class="as-button ghost">Help</button>
+  <div id="status">Status message</div>
+  <button class="button button-secondary">Help</button>
 </header>
 ```
 
-#### Main Layout (Sidebar + Content)
-```html
-<main class="main-layout">
-  <aside class="sidebar">
-    <!-- Sidebar content -->
-  </aside>
-  <div class="content-area">
-    <!-- Main content area -->
-  </div>
-</main>
-```
+Note: Layout classes like `.header`, `.sidebar`, `.main-layout`, `.content-area` are not provided by the design-system. You may need to create custom layout styles or use semantic HTML with your own CSS.
 
 #### Cards
 ```html
-<section class="card">
+<section class="box card">
   <h2>Card Title</h2>
   <h3>Subtitle</h3>
   <p>Card content goes here</p>
@@ -184,192 +172,108 @@ The Bespoke CSS framework provides a scoped, reusable set of components that can
 ```html
 <!-- Vertical label -->
 <label>Field Name
-  <input type="text" />
-</label>
-
-<!-- Horizontal label -->
-<label class="row">
-  <input type="checkbox" />
-  Checkbox Label
+  <input type="text" class="input" placeholder="Enter text" />
 </label>
 ```
+
+Note: The design-system does not provide specific label or form layout classes. Use semantic HTML and create custom styles if needed.
 
 #### Input Fields
 ```html
-<!-- Text input -->
-<input type="text" placeholder="Enter text" />
+<!-- Text input (use .input class) -->
+<input type="text" class="input" placeholder="Enter text" />
 
-<!-- Select dropdown -->
-<select>
-  <option>Option 1</option>
-  <option>Option 2</option>
-</select>
-
-<!-- Checkbox -->
-<input type="checkbox" />
-
-<!-- Radio buttons -->
-<div class="radio-group">
-  <label class="row">
-    <input type="radio" name="option" value="a" />
-    Option A
-  </label>
-  <label class="row">
-    <input type="radio" name="option" value="b" />
-    Option B
-  </label>
-</div>
-
-<!-- Horizontal radio group -->
-<div class="radio-group horizontal">
-  <label class="row">
-    <input type="radio" name="size" value="small" />
-    Small
-  </label>
-  <label class="row">
-    <input type="radio" name="size" value="large" />
-    Large
-  </label>
-</div>
-
-<!-- Textarea -->
-<textarea placeholder="Enter your message here..."></textarea>
-
-<!-- Toggle switch -->
-<label class="row">
-  <div class="toggle">
-    <input type="checkbox" class="toggle-input" />
-    <span class="toggle-slider"></span>
-  </div>
-  <span class="toggle-label">Enable notifications</span>
-</label>
+<!-- Number input -->
+<input type="number" class="input" placeholder="Enter number" />
 ```
+
+Note: The design-system provides `.input` class for text and number inputs. For other form elements (select, textarea, checkbox, radio, toggle), you may need to create custom styles or use native HTML elements.
 
 #### Buttons
 ```html
 <!-- Default button -->
-<button>Click Me</button>
+<button class="button">Click Me</button>
 
 <!-- Button variants -->
-<button class="primary">Primary Action</button>
-<button class="danger">Delete</button>
-<button class="ghost">Secondary</button>
+<button class="button button-primary">Primary Action</button>
+<button class="button button-danger">Delete</button>
+<button class="button button-secondary">Secondary</button>
+<button class="button button-tertiary">Tertiary</button>
 
 <!-- Button as link -->
-<a href="#" class="as-button">Link Button</a>
+<a href="#" class="button button-primary">Link Button</a>
 ```
 
 ### MODAL COMPONENTS
 
-#### Basic Modal
-```html
-<div class="modal">
-  <div class="modal-backdrop"></div>
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2>Modal Title</h2>
-      <button class="modal-close">&times;</button>
-    </div>
-    <div class="modal-body">
-      <p>Modal content goes here</p>
-    </div>
-  </div>
-</div>
-```
+Note: The design-system does not provide modal components. The help-modal.js system creates modals dynamically. For custom modals, you may need to create your own modal styles or use a separate modal library.
 
 ## CUSTOMIZATION
 
 ### CSS Custom Properties
-You can override any CSS custom property to customize the appearance:
+You can override design-system CSS custom properties to customize the appearance:
 
 ```css
-.bespoke {
+:root {
   /* Override colors */
-  --bespoke-bg: #f0f0f0;
-  --bespoke-fg: #333333;
-  --bespoke-accent: #ff6b6b;
+  --Colors-Base-Primary-700: #ff6b6b;
+  --Colors-Base-Neutral-00: #f0f0f0;
 
   /* Override spacing */
-  --bespoke-space-lg: 1.5rem;
+  --UI-Spacing-spacing-m: 1.5rem;
 
   /* Override border radius */
-  --bespoke-radius-lg: 12px;
+  --UI-Radius-radius-m: 12px;
 }
 ```
 
 ### Available Custom Properties
 
-#### Colors
-- `--bespoke-bg`: Background color
-- `--bespoke-fg`: Text color
-- `--bespoke-muted`: Muted text color
-- `--bespoke-box`: Container/surface background
-- `--bespoke-stroke`: Border color
-- `--bespoke-danger`: Error/danger color
-- `--bespoke-accent`: Accent/primary color
-- `--bespoke-control-bg`: Input/button background
-- `--bespoke-control-border`: Input/button border
-- `--bespoke-control-focus`: Focus ring color
-
-#### Spacing
-- `--bespoke-space-xs`: 0.25rem
-- `--bespoke-space-sm`: 0.5rem
-- `--bespoke-space-md`: 0.75rem
-- `--bespoke-space-lg`: 1rem
-- `--bespoke-space-xl`: 1.5rem
-- `--bespoke-space-2xl`: 2rem
-
-#### Border Radius
-- `--bespoke-radius-sm`: 4px
-- `--bespoke-radius-md`: 6px
-- `--bespoke-radius-lg`: 8px
-- `--bespoke-radius-xl`: 12px
-
-#### Shadows
-- `--bespoke-shadow-sm`: Small shadow
-- `--bespoke-shadow-md`: Medium shadow
-- `--bespoke-shadow-lg`: Large shadow
-- `--bespoke-shadow-xl`: Extra large shadow
+See the design-system documentation for complete variable lists:
+- **Colors**: See `design-system/colors/README.md` for all color variables
+- **Spacing**: See `design-system/spacing/README.md` for spacing and radius variables
+- **Typography**: See `design-system/typography/README.md` for typography variables
+- **Components**: Each component has its own variables (see component READMEs)
 
 ## THEME SUPPORT
 
 ### Automatic Dark Mode
-The framework automatically detects the user's system preference and switches between light and dark themes. No additional configuration is needed.
+The design-system automatically detects the user's system preference and switches between light and dark themes using `@media (prefers-color-scheme: dark)`. No additional configuration is needed.
 
 ## INTEGRATION EXAMPLES
 
 ### Database Designer
 ```html
-<div class="bespoke">
-  <header class="header">
-    <h1>DB Schema Designer</h1>
-    <button id="btn-save">Save</button>
-    <div class="status">Ready</div>
-    <button class="as-button ghost">Help</button>
-  </header>
+<header>
+  <h1>DB Schema Designer</h1>
+  <button id="btn-save" class="button button-primary">Save</button>
+  <div id="status">Ready</div>
+  <button id="btn-help" class="button button-secondary">Help</button>
+</header>
 
-  <main class="main-layout">
-    <aside class="sidebar">
-      <section class="card">
-        <h2>New Table</h2>
-        <form>
-          <label>Table name
-            <input type="text" placeholder="users" />
-          </label>
-          <button type="submit">Add Table</button>
-        </form>
-      </section>
-    </aside>
+<main>
+  <aside>
+    <section class="box card">
+      <h2>New Table</h2>
+      <form>
+        <label>Table name
+          <input type="text" class="input" placeholder="users" />
+        </label>
+        <button type="submit" class="button button-primary">Add Table</button>
+      </form>
+    </section>
+  </aside>
 
-    <div class="content-area">
-      <!-- Diagram area -->
-    </div>
-  </main>
-</div>
+  <div>
+    <!-- Diagram area -->
+  </div>
+</main>
 ```
+
 ## BEST PRACTICES
 
-1. **Always wrap in `.bespoke`**: This prevents style conflicts with the parent site
+1. **Use design-system components**: Use provided component classes (`.button`, `.box`, `.input`, etc.)
 2. **Use semantic HTML**: Combine with proper HTML elements for accessibility
-3. **Customize via CSS variables**: Don't modify the core CSS file
+3. **Customize via CSS variables**: Override design-system variables in your app-specific CSS
 4. **Test in both themes**: Ensure your app works in light and dark modes
+5. **Refer to design-system docs**: Check `design-system/README.md` and component READMEs for available classes and variables

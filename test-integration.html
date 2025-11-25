@@ -7,7 +7,17 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./bespoke.css" />
+  <!-- Design System Foundations -->
+  <link rel="stylesheet" href="./design-system/colors/colors.css">
+  <link rel="stylesheet" href="./design-system/spacing/spacing.css">
+  <link rel="stylesheet" href="./design-system/typography/typography.css">
+  <!-- Design System Components -->
+  <link rel="stylesheet" href="./design-system/components/button/button.css">
+  <link rel="stylesheet" href="./design-system/components/boxes/boxes.css">
+  <link rel="stylesheet" href="./design-system/components/dropdown/dropdown.css">
+  <link rel="stylesheet" href="./design-system/components/icons/icons.css">
+  <link rel="stylesheet" href="./design-system/components/input/input.css">
+  <link rel="stylesheet" href="./design-system/components/tags/tags.css">
 
 </head>
 <body>
@@ -16,7 +26,7 @@
     <header class="header">
       <h1>Component Test Suite</h1>
       <div class="status">Testing Bespoke CSS Components</div>
-      <button class="as-button ghost">Help</button>
+      <button class="button button-secondary">Help</button>
     </header>
 
     <main class="main-layout">
@@ -24,12 +34,12 @@
       <aside class="sidebar">
 
         <!-- Form Components Card -->
-        <section class="card">
+        <section class="box card">
           <h2>Form Components</h2>
 
           <form>
             <label>Text Input
-              <input type="text" placeholder="Enter text here" />
+              <input type="text" class="input" placeholder="Enter text here" />
             </label>
 
             <label>Select Dropdown
@@ -46,7 +56,7 @@
             </label>
 
             <!-- NEW COMPONENTS TEST (NON TESTED) -->
-            <hr style="margin: var(--bespoke-space-lg) 0; border-color: var(--bespoke-stroke);" />
+            <hr />
             <h3>New Components (NON TESTED)</h3>
 
             <!-- Radio Buttons Test -->
@@ -106,28 +116,28 @@
             </label>
 
             <div class="row">
-              <button type="submit" class="primary">Submit</button>
-              <button type="button" class="danger">Cancel</button>
+              <button type="submit" class="button button-primary">Submit</button>
+              <button type="button" class="button button-danger">Cancel</button>
             </div>
           </form>
         </section>
 
         <!-- Button Variants Card -->
-        <section class="card">
+        <section class="box card">
           <h2>Button Variants</h2>
 
           <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-            <button>Default Button</button>
-            <button class="primary">Primary Button</button>
-            <button class="danger">Danger Button</button>
-            <button class="ghost">Ghost Button</button>
-            <a href="#" class="as-button">Link Button</a>
-            <a href="#" class="as-button ghost">Ghost Link</a>
+            <button class="button">Default Button</button>
+            <button class="button button-primary">Primary Button</button>
+            <button class="button button-danger">Danger Button</button>
+            <button class="button button-secondary">Secondary Button</button>
+            <a href="#" class="button">Link Button</a>
+            <a href="#" class="button button-secondary">Secondary Link</a>
           </div>
         </section>
 
         <!-- Layout Components Card -->
-        <section class="card">
+        <section class="box card">
           <h2>Layout Components</h2>
 
           <div class="row">
@@ -150,10 +160,10 @@
 
       <!-- Main Content Area -->
       <div class="content-area">
-        <div style="background: var(--bespoke-canvas); height: 100%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--bespoke-stroke); border-radius: var(--bespoke-radius-lg);">
+        <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
           <div style="text-align: center;">
-            <p style="color: var(--bespoke-muted); font-size: var(--bespoke-font-size-xl); margin: 0 0 var(--bespoke-space-lg) 0;">Main Content Area</p>
-            <p style="color: var(--bespoke-fg); font-size: var(--bespoke-font-size-sm); margin: 0;">This area would contain your main application content</p>
+            <p style="margin: 0 0 1rem 0;">Main Content Area</p>
+            <p style="margin: 0;">This area would contain your main application content</p>
           </div>
         </div>
       </div>
